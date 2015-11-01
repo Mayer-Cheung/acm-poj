@@ -22,6 +22,7 @@ int main()
 			cur += a;
 			tmp_h = max(tmp_h, b);
 		}
+		tmp_w = max(tmp_w, cur);
 		printf("%d x %d\n", tmp_w, cnt + tmp_h);
 	}
 }

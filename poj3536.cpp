@@ -1,33 +1,40 @@
-#include <iostream>
-#include <cstdio>
-#include <cmath>
+#include<cstdio>
+#include<cmath>
+#include<iostream>
+#include<cstring>
+
 using namespace std;
-int main()
-{
-	int n, m = 1000000000;
-	int mi, mj, mk;
-	scanf("%d", &n);
-	for (int i = 1; i <= sqrt(n) + 1; i++)
-	{
-		if (n % i == 0)
-		{
-			for (int j = 1; j <= n / i; j++)
-			{
-				int k = i * j;
-				if (n % k == 0)
-				{
-					k = n / k;
-					if (i * j + j * k + k * i < m)
-					{
-						m = i * j + i * k + j * k;
-						mi = i;
-						mj = j;
-						mk = k;
-					}
-				}
-			}
-		}
-	}
-	printf("%d %d %d\n", mi, mj, mk);
-	return 0;
+
+int canzhen[1000];
+int main(){
+    int n;
+    while(scanf("%d", &n) != EOF){
+        memset(canzhen,0,sizeof(canzhen));
+        int min = 999999999;
+        int biaoi=0,biaoj=0,biaok=0;
+        int count = 0;
+        for(int i = 1; i <= n; i++){
+            if(n%i == 0){
+                canzhen[count++] = i;
+            }
+        }
+        for(int i = 0; i < count;i++){
+            for(int j = 0; j < count; j++){
+                for(int k = 0; k < count; k++){
+                    if(canzhen[i]*canzhen[j]*canzhen[k] == n){
+                        if(canzhen[i]*canzhen[j]+canzhen[j]*canzhen[k]+canzhen[i]*canzhen[k] <= min)
+                        {
+                            min = canzhen[i]*canzhen[j]+canzhen[j]*canzhen[k]+canzhen[i]*canzhen[k];
+                            biaoi = canzhen[i];
+                            biaoj = canzhen[j];
+                            biaok = canzhen[k];
+                        }
+                    }
+                }
+            }
+        }
+
+        printf("%d %d %d\n", biaoi, biaoj, biaok);
+    }
+    return 0;
 }

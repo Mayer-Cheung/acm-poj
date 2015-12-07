@@ -1,7 +1,7 @@
 #include <iostream>
 #include <cstdio>
 #include <queue>
-
+#include <cstring>
 using namespace std;
 
 int vis[100005];
@@ -20,7 +20,7 @@ void bfs(int s, int e)
 {
 	Node a(s, 0);
 	q.push(a);
-	vis[a] = 1;
+	vis[s] = 1;
 	while (!q.empty())
 	{
 		Node b = q.front();

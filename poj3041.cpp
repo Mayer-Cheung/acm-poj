@@ -1,17 +1,18 @@
 #include <iostream>
 #include <cstdio>
-#include <vector>
 #include <cstring>
+#include <algorithm>
+#include <vector>
 
 using namespace std;
 
-const int MAXN = 305;
+const int MAXN = 505;
 vector<int> vec[MAXN];
 bool used[MAXN];
 int match[MAXN];
-int n;
+int n, m;
 
-int find(int u)
+bool find(int u)
 {
 	for (int i = 0; i < vec[u].size(); i++)
 	{
@@ -31,7 +32,7 @@ int find(int u)
 int cal()
 {
 	int ans = 0;
-	for (int i = 0; i < n; i++)
+	for (int i = 1; i <= n; i++)
 	{
 		memset(used, 0, sizeof(used));
 		if (find(i))
@@ -42,24 +43,13 @@ int cal()
 
 int main()
 {
-	while (scanf("%d", &n) != EOF)
+	scanf("%d%d", &n, &m);
+	memset(match, -1, sizeof(match));
+	for (int i = 0; i < m; i++)
 	{
-		for (int i = 0; i < n; i++)
-			vec[i].clear();
-		memset(used, 0, sizeof(used));
-		memset(match, -1, sizeof(match));
-
-		int t;
-		for (int i = 0; i < n; i++)
-		{
-			scanf("%d", &t);
-			for (int j = 0; j < t; j++)
-			{
-				int p, q;
-				scanf("%d%d", &p, &q);
-				vec[i].push_back(p * 12 + q);
-			}
-		}
-		printf("%d\n", cal());
+		int x, y;
+		scanf("%d%d", &x, &y);
+		vec[x].push_back(y);
 	}
+	printf("%d\n", cal());
 }

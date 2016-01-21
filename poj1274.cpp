@@ -85,3 +85,67 @@ int main()
 		printf("%d\n", max_flow(0, n + m + 1));
 	}
 }
+
+
+
+#include <iostream>
+#include <cstdio>
+#include <cstring>
+
+using namespace std;
+
+const int MAX = 205;
+bool used[MAX];
+int map[MAX][MAX];
+int match[MAX];
+int n, m;
+
+bool find(int u)
+{
+	for (int i = 1; i <= m; i++)
+	{
+		if (!used[i] && map[u][i])
+		{
+			used[i] = true;
+			if (match[i] == -1 || find(match[i]))
+			{
+				match[i] = u;
+				return true;
+			}
+		}
+	}
+	return false;
+}
+
+int cal()
+{
+	int ans = 0;
+	for (int i = 1; i <= n; i++)
+	{
+		memset(used, 0, sizeof(used));
+		if (find(i))
+			ans++;
+	}
+	return ans;
+}
+
+int main()
+{
+	while (scanf("%d%d", &n, &m) != EOF)
+	{
+		memset(map, 0, sizeof(map));
+		memset(match, -1, sizeof(match));
+		for (int i = 1; i <= n; i++)
+		{
+			int num;
+			scanf("%d", &num);
+			for (int j = 1; j <= num; j++)
+			{
+				int tmp;
+				scanf("%d", &tmp);
+				map[i][tmp] = 1;
+			}
+		}
+		printf("%d\n", cal());
+	}
+}

@@ -1,11 +1,12 @@
+//  prime
 #include <iostream>
 #include <cstdio>
-#include <algorithm>
 
 using namespace std;
 
-const int MAXN = 30;
+const int MAXN = 105;
 const int INF = 1e9;
+
 int cost[MAXN][MAXN];
 int mincost[MAXN];
 bool used[MAXN];
@@ -18,7 +19,6 @@ int prim()
 		mincost[i] = INF;
 		used[i] = false;
 	}
-
 	mincost[0] = 0;
 	int res = 0;
 
@@ -33,51 +33,36 @@ int prim()
 		if (v == -1)
 			break;
 		used[v] = true;
-
 		res += mincost[v];
 		for (int u = 0; u < n; u++)
-		{
 			mincost[u] = min(mincost[u], cost[v][u]);
-		}
 	}
 	return res;
 }
 
 int main()
 {
-	while (cin >> n && n != 0)
+	while (scanf("%d", &n) != EOF)
 	{
 		for (int i = 0; i < n; i++)
 			for (int j = 0; j < n; j++)
-				cost[i][j] = i == j ? 0 : INF;
-		for (int i = 1; i < n; i++)
-		{
-			char c, d;
-			int m, s;
-			cin >> c >> m;
-			int index = c - 'A';
-			for (int j = 0; j < m; j++)
-			{
-				cin >> d >> s;
-				cost[index][d - 'A'] = min(s,cost[index][d - 'A']);
-				cost[d - 'A'][index] = min(s,cost[d - 'A'][index]);
-			}
-		}
+				scanf("%d", &cost[i][j]);
 
-		cout << prim() << endl;
+		printf("%d\n", prim());
 	}
 }
 
+//  kruscal
 #include <iostream>
+#include <cstdio>
 #include <algorithm>
 #include <vector>
+
 using namespace std;
 
-const int MAXN = 30;
-const int INF = 1e9;
-int V, E;
+const int MAXN = 105;
 
-int par[MAXN], rnk[MAXN];
+int par[MAXN], rnk[MAXN], n;
 
 struct Edge
 {
@@ -120,9 +105,7 @@ void unite(int x, int y)
 		return;
 
 	if (rnk[x] < rnk[y])
-	{
 		par[x] = y;
-	}
 	else
 	{
 		par[y] = x;
@@ -136,10 +119,10 @@ bool same(int x, int y)
 	return find(x) == find(y);
 }
 
-int kurskal()
+int kruscal()
 {
 	sort(vec.begin(), vec.end(), cmp);
-	init_union_find(V);
+	init_union_find(n);
 	int res = 0;
 	for (int i = 0; i < vec.size(); i++)
 	{
@@ -155,24 +138,24 @@ int kurskal()
 
 int main()
 {
-	while (cin >> V && V != 0)
+	while (scanf("%d", &n) != EOF)
 	{
-		char src, dst;
-		int num, cost;
 		vec.clear();
-		for (int i = 1; i < V; i++)
+		int temp;
+		for (int i = 0; i < n; i++)
 		{
-			cin >> src >> num;
-			for (int j = 0; j < num; j++)
+			for (int j = 0; j < n; j++)
 			{
-				cin >> dst >> cost;
-				Edge temp(src - 'A', dst - 'A', cost);
-				vec.push_back(temp);
-				Edge temp1(dst - 'A',src - 'A', cost);
-				vec.push_back(temp1);				
+				scanf("%d", &temp);
+				if (i != j)
+				{
+					Edge a(i, j, temp);
+					Edge b(j, i, temp);
+					vec.push_back(a);
+					vec.push_back(b);
+				}
 			}
 		}
-		E = vec.size();
-		cout << kurskal << endl;
+		printf("%d\n", kruscal());
 	}
 }

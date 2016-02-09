@@ -1,17 +1,17 @@
-//  prime
+//  prime 375ms
 #include <iostream>
 #include <cstdio>
 #include <algorithm>
 
 using namespace std;
 
-const int MAXN = 505;
+const int MAXN = 2005;
 const int INF = 1e9;
 int cost[MAXN][MAXN];
 int mincost[MAXN];
 bool used[MAXN];
 int n;
-
+char a[MAXN][10];
 int prim()
 {
 	for (int i = 0; i < n; i++)
@@ -34,7 +34,7 @@ int prim()
 		if (v == -1)
 			break;
 		used[v] = true;
-		res = max(res, mincost[v]);
+		res += mincost[v];
 		for (int u = 0; u < n; u++)
 		{
 			mincost[u] = min(mincost[u], cost[v][u]);
@@ -45,20 +45,27 @@ int prim()
 
 int main()
 {
-	int t;
-	scanf("%d", &t);
-	while (t--)
+	while (scanf("%d", &n) && n)
 	{
-		scanf("%d", &n);
 		for (int i = 0; i < n; i++)
+			scanf("%s", a[i]);
+		for (int i = 0; i < n; i++)
+		{
 			for (int j = 0; j < n; j++)
-				scanf("%d", &cost[i][j]);
+			{
+				int sum = 0;
+				for (int k = 0; k < 7; k++)
+					if (a[i][k] != a[j][k])
+						sum++;
+				cost[i][j] = sum;
+			}
+		}
 
-		printf("%d\n", prim());
+		printf("The highest possible quality is 1/%d.\n", prim());
 	}
 }
 
-//  kruscal
+//  kruscal 985ms
 #include <iostream>
 #include <cstdio>
 #include <vector>
@@ -66,9 +73,9 @@ int main()
 
 using namespace std;
 
-const int MAXN = 505;
+const int MAXN = 2005;
 int par[MAXN], rank[MAXN], n;
-
+char a[MAXN][10];
 struct Edge
 {
 	int u, v, cost;
@@ -133,8 +140,7 @@ int kruscal()
 		if (!same(e.u, e.v))
 		{
 			unite(e.u, e.v);
-			if (e.cost > result)
-				result = e.cost;
+			result += e.cost;
 		}
 	}
 	return result;
@@ -142,25 +148,26 @@ int kruscal()
 
 int main()
 {
-	int t;
-	scanf("%d", &t);
-	while (t--)
+	while (scanf("%d", &n) && n)
 	{
-		scanf("%d", &n);
 		vec.clear();
+		for (int i = 0; i < n; i++)
+			scanf("%s", a[i]);
 		for (int i = 0; i < n; i++)
 		{
 			for (int j = 0; j < n; j++)
 			{
-				int temp;
-				scanf("%d", &temp);
 				if (i > j)
 				{
-					Edge a(i, j, temp);
+					int sum = 0;
+					for (int k = 0; k < 7; k++)
+						if (a[i][k] != a[j][k])
+							sum++;
+					Edge a(i, j, sum);
 					vec.push_back(a);
 				}
 			}
 		}
-		printf("%d\n", kruscal());
+		printf("The highest possible quality is 1/%d.\n", kruscal());
 	}
 }

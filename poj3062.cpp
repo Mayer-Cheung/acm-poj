@@ -3,11 +3,11 @@
 
 using namespace std;
 
+char a[1005];
 int main()
 {
-	int n;
-	while (scanf("%d", &n), n)
+	while (gets(a) != EOF)
 	{
-		
+		puts(a);
 	}
 }
